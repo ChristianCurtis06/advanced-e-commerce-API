@@ -43,7 +43,11 @@ const CustomerForm = () => {
         const errors = {};
         if (!customer.name) errors.name = 'Customer name is required';
         if (!customer.email) errors.email = 'Customer email is required';
-        if (!customer.phone) errors.phone = 'Customer phone is required';
+        if (!customer.phone) {
+            errors.phone = 'Customer phone is required';
+        } else if (!/^\(\d{3}\) \d{3}-\d{4}$/.test(customer.phone)) {
+            errors.phone = 'Phone number must be in the format (XXX) XXX-XXXX';
+        }
         if (!account.username) errors.username = 'Username is required';
         if (!account.password) errors.password = 'Password is required';
         setErrors(errors);
@@ -121,6 +125,7 @@ const CustomerForm = () => {
                     <Form.Control
                         type='email'
                         name='email'
+                        placeholder='example@email.com'
                         value={customer.email}
                         onChange={handleCustomerChange}
                         isInvalid={!!errors.email}
@@ -132,6 +137,7 @@ const CustomerForm = () => {
                     <Form.Control
                         type='tel'
                         name='phone'
+                        placeholder='(xxx) xxx-xxxx'
                         value={customer.phone}
                         onChange={handleCustomerChange}
                         isInvalid={!!errors.phone}
